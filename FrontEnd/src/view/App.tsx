@@ -11,7 +11,7 @@ import Shell from './components/Shell';
 
 export default function App() {
   const auth = useSessionController();
-  if (!auth.session) return <Routes><Route path="/derechos" element={<CopyrightPage/>}/><Route path="*" element={<AccessPage enterDemo={auth.enterDemo} signIn={auth.signIn} loading={auth.loading} error={auth.error} />}/></Routes>;
+  if (!auth.session) return <Routes><Route path="/derechos" element={<CopyrightPage/>}/><Route path="*" element={<AccessPage signIn={auth.signIn} />}/></Routes>;
   return (
     <Shell session={auth.session} signOut={auth.signOut}>
       <Routes>

@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-Abre `http://localhost:5173` y selecciona **Entrar en modo demostración**. No hace falta un backend para probar las calculadoras. El historial se guarda solo en el navegador (máximo 50 cálculos).
+Abre `http://localhost:5173` para ver la interfaz de **inicio de sesión**. Pulsa **Iniciar sesión** para entrar directamente al laboratorio, incluso con los campos vacíos y sin backend. El formulario es una interfaz preparada para el equipo de backend; actualmente no valida ni envía credenciales. Las calculadoras realizan los cálculos en el navegador y el historial se guarda localmente (máximo 50 cálculos).
 
 Para verificar:
 
@@ -68,7 +68,11 @@ POST {VITE_API_BASE_URL}/asistente/preguntas
   salida:   { "respuesta": "..." }
 ```
 
-Define `VITE_API_BASE_URL` en un archivo `.env.local` para habilitar el formulario de acceso y el asistente. Esos endpoints son una propuesta de integración: deben adaptarse al contrato real del equipo de backend. El frontend no consulta SQL directamente ni guarda contraseñas.
+El formulario de acceso siempre está visible e incluye correo, contraseña, mostrar/ocultar contraseña y aviso de bloqueo de mayúsculas. Conserva estados opcionales de carga y error para la integración futura. En esta entrega de frontend, **Iniciar sesión** abre una sesión local de demostración sin exigir campos, validar su formato ni llamar a la API. Los valores del formulario no se usan para conceder acceso.
+
+Para la integración futura, copia `.env.example` a `.env.local`, define `VITE_API_BASE_URL` con la URL del backend y reinicia Vite. Configurar esa variable conecta el cliente HTTP y el asistente, pero no cambia el acceso directo del formulario. El equipo de backend deberá reemplazar el acceso local de `src/controller/useSessionController.ts`, conectar el formulario con el cliente de autenticación y aplicar las validaciones correspondientes. El cliente HTTP provisional está en `src/model/api.ts`; el contrato y CORS deben adaptarse al backend definitivo. La sesión actual permanece en memoria y termina al recargar o cerrar sesión. El frontend no guarda contraseñas ni tokens en el almacenamiento del navegador.
+
+Estos endpoints son una propuesta de integración. El frontend no consulta SQL directamente. La gestión de cuentas y la recuperación de contraseñas quedan a cargo del equipo de backend; la pantalla indica al usuario que contacte al administrador para recibir ayuda con el acceso.
 
 Funciones del bosquejo que aún requieren diseño o servicios adicionales: doble división sintética, factores cuadráticos, explicaciones IA y evaluaciones. La versión nueva del SQL y su diagrama ya no incluyen tablas de exámenes. La pantalla de evaluaciones informa que esta función queda pendiente de una definición de alcance y API.
 

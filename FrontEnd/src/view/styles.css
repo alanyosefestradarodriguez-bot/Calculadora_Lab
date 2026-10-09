@@ -76,6 +76,21 @@
 /* Identidad del laboratorio e instituciones en las pantallas de inicio. */
 .brand-crest{width:42px;height:42px}
 .topbar-crest{width:27px;height:27px}
+.access-field{display:grid;gap:8px}
+.access-form label{color:#304b61;font-weight:700}
+.access-form .input-icon input{height:50px;background:#fff}
+.access-password input{padding-right:51px}
+.access-password-toggle{position:absolute;right:5px;top:5px;width:40px;height:40px;display:grid;place-items:center;background:transparent;border:0;border-radius:6px;color:#607f94}
+.access-password-toggle:hover{background:#edf3f7;color:#164d77}
+.access-password-toggle svg{position:static;transform:none;color:inherit}
+.access-form input:disabled,.access-password-toggle:disabled{opacity:.65;cursor:wait}
+.access-field-hint{font-size:11px;color:#8a641e;margin:0}
+.access-error{margin:0;line-height:1.6}
+.access-submit{min-height:48px;margin-top:5px}
+.access-account-note{font-size:11px;line-height:1.7;color:#718595;text-align:center;margin:24px 0 0;padding-top:20px;border-top:1px solid #dde6ec}
+.access-spinner{animation:access-spin 1s linear infinite}
+@keyframes access-spin{to{transform:rotate(360deg)}}
+@media(max-width:600px){.access-form .input-icon input{font-size:16px}}
 .access-crest{width:46px;height:46px}
 .access-card-icon img{width:42px;height:42px}
 .institutional-watermarks{position:absolute;inset:0;overflow:hidden;pointer-events:none}

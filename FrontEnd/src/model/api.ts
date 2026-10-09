@@ -5,17 +5,22 @@ const baseUrl = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') as string 
 export const hasApi = Boolean(baseUrl);
 
 export async function login(email: string, password: string): Promise<UserSession> {
-  if (!baseUrl) throw new Error('No hay un servidor de autenticación configurado. Usa el modo de demostración.');
-  const response = await fetch(`${baseUrl}/auth/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ correo: email, contrasena: password }),
-  });
+  if (!baseUrl) throw new Error('El inicio de sesión aún no está disponible. Contacta al administrador del laboratorio.');
+  let response: Response;
+  try {
+    response = await fetch(`${baseUrl}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ correo: email, contrasena: password }),
+    });
+  } catch {
+    throw new Error('No se pudo conectar con el servidor. Verifica tu conexión e inténtalo de nuevo.');
+  }
   if (!response.ok) throw new Error(response.status === 401 ? 'Correo o contraseña incorrectos.' : 'No se pudo iniciar sesión.');
   const data: unknown = await response.json();
   if (!data || typeof data !== 'object') throw new Error('La respuesta del servidor no es válida.');
   const payload = data as { token?: unknown; usuario?: { nombre?: unknown; correo?: unknown } };
-  if (typeof payload.token !== 'string' || !payload.usuario || typeof payload.usuario.nombre !== 'string') {
+  if (typeof payload.token !== 'string' || !payload.token.trim() || !payload.usuario || typeof payload.usuario.nombre !== 'string') {
     throw new Error('El servidor no devolvió la sesión esperada.');
   }
   return {
